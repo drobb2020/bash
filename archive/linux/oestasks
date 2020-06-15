@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# A script to manage OES2
+
+clear
+
+echo "Enter the letter of the task to perform"
+echo "a) Repair eDirectory database:"
+echo "b) Check the status of the eDirectory daemon:"
+echo "c) Check the health of eDirectory:"
+echo "d) Login to eDirectory as admin:"
+echo "e) Backup the eDirectory database:"
+echo "f) List the instances of eDirectory on this server:"
+echo "q) Quit"
+
+read TASK
+
+case $TASK in
+	a ) ndsrepair -U
+	;;
+	b ) rcndsd status
+	;;
+	c ) ndscheck -a admin.SLC.DA
+	;;
+	d ) ndslogin -t DA-TREE admin.SLC.DA
+	;;
+	e ) ndsbackup cvf /opt/novell/eDirectory/eDir.bak -a admin.SLC.DA
+	;;
+	f ) ndsmanage
+	;;
+	q ) exit 0
+	;;
+	* ) echo "Invalid Option." ; exit 1
+	;;
+esac
+
+exit 0
+

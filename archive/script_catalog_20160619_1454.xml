@@ -1,0 +1,1123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" version="2.0" href="script_catalog.xslt"?>
+<!--
+     Revision Table
+Version 0.1.0 - Initial creation of xml file.		Wed Jul 15 2015
+
+-->
+<catalog>
+  <scripts>
+    <script>
+      <sid id="000">
+        <id>000</id>
+        <uid/>
+        <name>core-config.sh</name>
+        <purpose> Script to configure an OES server to write application cores to </purpose>
+        <version>0.1.6</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/oes/core-checker</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="001">
+        <id>001</id>
+        <uid/>
+        <name>test.sh</name>
+        <purpose> General test script to validate functions and features</purpose>
+        <version>0.1.4</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="002">
+        <id>002</id>
+        <uid/>
+        <name>s-backup.sh</name>
+        <purpose> Backup the local bash script directories to a remote server</purpose>
+        <version>0.1.9</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/backup</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="003">
+        <id>003</id>
+        <uid/>
+        <name>cifsdwatch.sh</name>
+        <purpose> Script to monitor high memory utilization on CIFS daemon</purpose>
+        <version>0.1.7</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/daemon/cifsdwatch</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="004">
+        <id>004</id>
+        <uid/>
+        <name>dfs-ts.sh</name>
+        <purpose> Script to troubleshoot DFS utilization</purpose>
+        <version>0.1.5</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/daemon/dfs-troubleshooting</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="005">
+        <id>005</id>
+        <uid/>
+        <name>connectionsnetstat.sh</name>
+        <purpose> Script to count the number connections per IP Address on OES</purpose>
+        <version>0.1.3</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/daemon/edir-procwatch</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="006">
+        <id>006</id>
+        <uid/>
+        <name>edir-procwatch.sh</name>
+        <purpose> Script to monitor and log the utilization of ndsd and ncp2nss</purpose>
+        <version>0.1.3</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/daemon/edir-procwatch</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="007">
+        <id>007</id>
+        <uid/>
+        <name>googleMemoryProfiler.sh</name>
+        <purpose> This script will remove heap files created by google profiler </purpose>
+        <version>0.1.3</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/daemon/google_perftools</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="008">
+        <id>008</id>
+        <uid/>
+        <name>httpstkwatch.sh</name>
+        <purpose> Script to monitor the httpstkd daemon and restart if necessary</purpose>
+        <version>0.1.4</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/daemon/httpstkwatch</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="009">
+        <id>009</id>
+        <uid/>
+        <name>memwatch.sh</name>
+        <purpose> Script to monitor high memory utilization</purpose>
+        <version>0.1.8</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/daemon/memwatch</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="010">
+        <id>010</id>
+        <uid/>
+        <name>ndsd-mon.sh</name>
+        <purpose> Monitor and restart nds if it crashes</purpose>
+        <version>0.2.12</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/daemon/ndsd-mon</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="011">
+        <id>011</id>
+        <uid/>
+        <name>restartndsd.sh</name>
+        <purpose> Script to restart ndsd on a monthly schedule using cron</purpose>
+        <version>0.1.3</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/daemon/restartndsd</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="012">
+        <id>012</id>
+        <uid/>
+        <name>slpdiag.sh</name>
+        <purpose> A script to collect and report on openSLP registrations</purpose>
+        <version>0.1.17</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/daemon/slp/slpdiag</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="013">
+        <id>013</id>
+        <uid/>
+        <name>slpd-mon.sh</name>
+        <purpose> Monitor and restart SLP daemon if it crashes</purpose>
+        <version>0.1.5</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/daemon/slp/slpd-mon</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="014">
+        <id>014</id>
+        <uid/>
+        <name>slpmod.sh</name>
+        <purpose> Modify the slp.conf file on a server to include a new scope name</purpose>
+        <version>0.1.4</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/daemon/slp/slpmod</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="015">
+        <id>015</id>
+        <uid/>
+        <name>slpmodda.sh</name>
+        <purpose> Modify slp.conf file to include new DA Address (IP Format)</purpose>
+        <version>0.1.6</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/daemon/slp/slpmod</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="016">
+        <id>016</id>
+        <uid/>
+        <name>slpmodda-dns.sh</name>
+        <purpose> Modify the slp.conf file to include new DA Addresses (DNS format)</purpose>
+        <version>0.1.6</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/daemon/slp/slpmod</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="017">
+        <id>017</id>
+        <uid/>
+        <name>zlm_service_cleanup.sh</name>
+        <purpose> This script will attempt to cleanup any Services related files that cause the following error message.</purpose>
+        <version>0.1.2</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/daemon/zmdreset</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="018">
+        <id>018</id>
+        <uid/>
+        <name>zombie.sh</name>
+        <purpose> Log whenever ndpapp goes into a zombie state</purpose>
+        <version>0.1.2</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/daemon/zombie</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="019">
+        <id>019</id>
+        <uid/>
+        <name>postmig-sshcfg.sh</name>
+        <purpose> Reset ssh configuration to RCMP/DSB defaults</purpose>
+        <version>0.1.4</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/daemon/sshmod</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="020">
+        <id>020</id>
+        <uid/>
+        <name>premig-sshcfg.sh</name>
+        <purpose> ssh reconfiguration to allow root access to servers</purpose>
+        <version>0.1.4</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/daemon/sshmod</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="021">
+        <id>021</id>
+        <uid/>
+        <name>zmdreset.sh</name>
+        <purpose> Reset the zmd registration so the server can be reregistered with NCC or a SMT server</purpose>
+        <version>0.1.5</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/daemon/zmdreset</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="022">
+        <id>022</id>
+        <uid/>
+        <name>dib-backup.sh</name>
+        <purpose> Backup the DIB set and NICI files on an OES2/OES11 server</purpose>
+        <version>0.1.8</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/edir/dib-bkup</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="023">
+        <id>023</id>
+        <uid/>
+        <name>dsbkprep.sh</name>
+        <purpose> Configure roll forward logs for use with dsbk backups and restores</purpose>
+        <version>0.1.4</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/edir/dib-bkup</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="024">
+        <id>024</id>
+        <uid/>
+        <name>dib-restore.sh</name>
+        <purpose> Restore eDirectory and NICI on an OES server from a previous backup.</purpose>
+        <version>0.1.6</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/edir/dib-rest</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="025">
+        <id>025</id>
+        <uid/>
+        <name>edir-backup.sh</name>
+        <purpose> Backup the local instance of eDirectory 8.8.x and all supporting files</purpose>
+        <version>0.1.17</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/edir/edir-bkup</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="026">
+        <id>026</id>
+        <uid/>
+        <name>edirhealth.sh</name>
+        <purpose> Script to check nds health on the local server.</purpose>
+        <version>0.1.3</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/edir/edir-health</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="027">
+        <id>027</id>
+        <uid/>
+        <name>edir-restore.sh</name>
+        <purpose> Restore the local instance of eDirectory 8.8.x and all supporting files from a previous backup</purpose>
+        <version>0.1.14</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/edir/edir-rest</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="028">
+        <id>028</id>
+        <uid/>
+        <name>nds-backup.sh</name>
+        <purpose> Backup all eDirectory objects from an OES Server</purpose>
+        <version>0.1.9</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/edir/nds-backup</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="029">
+        <id>029</id>
+        <uid/>
+        <name>nds-backup-ob.sh</name>
+        <purpose> Backup selected eDirectory object or a container from an OES Server</purpose>
+        <version>0.1.4</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/edir/nds-backup</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="030">
+        <id>030</id>
+        <uid/>
+        <name>nds-restore.sh</name>
+        <purpose> Restore eDirectory objects to an OES server</purpose>
+        <version>0.1.4</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/edir/nds-restore</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="031">
+        <id>031</id>
+        <uid/>
+        <name>nds-restore-ob.sh</name>
+        <purpose> Restore a single eDirectory object to an OES server</purpose>
+        <version>0.1.3</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/edir/nds-restore</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="032">
+        <id>032</id>
+        <uid/>
+        <name>reload-edir.sh</name>
+        <purpose> Restart eDirectory daemon without notifying users</purpose>
+        <version>0.1.5</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/edir/reload-edir</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="033">
+        <id>033</id>
+        <uid/>
+        <name>gwbackup.sh</name>
+        <purpose> Create a backup of a GroupWise system to a remote server</purpose>
+        <version>0.1.14</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/gw/gwbackup</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="034">
+        <id>034</id>
+        <uid/>
+        <name>gwlog_clean.sh</name>
+        <purpose> Remove hostname and IP Address information from a GroupWise POA or MTA log</purpose>
+        <version>0.1.4</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/gw/gwlog-clean</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="035">
+        <id>035</id>
+        <uid/>
+        <name>own</name>
+        <purpose> Take ownership of any file by supplying the username of the account you want to be owner and the current owner account name</purpose>
+        <version>0.1.6</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/misc</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="036">
+        <id>036</id>
+        <uid/>
+        <name>sc-clean.sh</name>
+        <purpose> Remove hostname and IP Address information from a supportconfig collection</purpose>
+        <version>0.2.6</version>
+        <author>David Robb</author>
+        <location>/home/david/bin/linux/misc/sc-clean</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="037">
+        <id>037</id>
+        <uid/>
+        <name>sc-collect.sh</name>
+        <purpose> Run supportutils on a scheduled basis</purpose>
+        <version>0.1.7</version>
+        <author>David Robb</author>
+        <location>/home/david/bin/linux/misc/sc-collect</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="038">
+        <id>038</id>
+        <uid/>
+        <name>sc-daily.sh</name>
+        <purpose> Create a daily supportconfig</purpose>
+        <version>0.1.4</version>
+        <author>David Robb</author>
+        <location>/home/david/bin/linux/misc/sc-daily</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="039">
+        <id>039</id>
+        <uid/>
+        <name>dynmotd</name>
+        <purpose> A dynamic Message of the Day instead of /etc/motd</purpose>
+        <version>0.1.11</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/motd</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="040">
+        <id>040</id>
+        <uid/>
+        <name>adjNcpThreads.sh</name>
+        <purpose> Sript to adjust NCP threads</purpose>
+        <version>0.1.3</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/ncp</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="041">
+        <id>041</id>
+        <uid/>
+        <name>ncpThread-mon.sh</name>
+        <purpose> Script to monitor the ndsd and ncp thread and queue conditions on OES11</purpose>
+        <version>0.1.5</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/ncp</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="042">
+        <id>042</id>
+        <uid/>
+        <name>attrib.sh</name>
+        <purpose> Set delete and rename inhibit on top level folders on an NSS volume</purpose>
+        <version>0.1.4</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/nss/attrib</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="043">
+        <id>043</id>
+        <uid/>
+        <name>attr-dir-list.sh</name>
+        <purpose> Script to record the directories on an NSS volume that have rename and delete inhibit set</purpose>
+        <version>0.1.5</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/nss/attrib-dir-list</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="044">
+        <id>044</id>
+        <uid/>
+        <name>meta-backup.sh</name>
+        <purpose> Backup all NSS metadata for the volumes listed on the command line</purpose>
+        <version>0.1.7</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/nss/meta-bkup</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="045">
+        <id>045</id>
+        <uid/>
+        <name>meta-restore.sh</name>
+        <purpose> Restore all NSS metadata for the volumes included on the command line</purpose>
+        <version>0.1.4</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/nss/meta-rest</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="046">
+        <id>046</id>
+        <uid/>
+        <name>trustee-backup.sh</name>
+        <purpose> Backup all NSS Trustee data for all volumes. This is not the same as using metamig!</purpose>
+        <version>0.1.4</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/nss/trustee-bkup</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="047">
+        <id>047</id>
+        <uid/>
+        <name>trustee-restore.sh</name>
+        <purpose> Restore NSS Trustee data for a volume. This is not the same as using metamig!</purpose>
+        <version>0.1.3</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/nss/trustee-rest</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="048">
+        <id>048</id>
+        <uid/>
+        <name>renew-certs.sh</name>
+        <purpose> Certificate renewal script for the CENTRAL tree RCMPWF tree, and ATLANTIC Tree</purpose>
+        <version>0.1.5</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/oes/edir-certs</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="049">
+        <id>049</id>
+        <uid/>
+        <name>oes-baseline.sh</name>
+        <purpose> Baseline and monitor a new OES server pre and post suggested OES tuning</purpose>
+        <version>0.1.11</version>
+        <author>David Robb</author>
+        <location>/home/david/bin/linux/oes/oes-baseline</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="050">
+        <id>050</id>
+        <uid/>
+        <name>oeshealth.sh</name>
+        <purpose> Create an automated health report for OES Linux servers</purpose>
+        <version>0.1.26</version>
+        <author>David Robb</author>
+        <location>/home/david/bin/linux/oes/oes-health</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="051">
+        <id>051</id>
+        <uid/>
+        <name>oes-tuning.sh</name>
+        <purpose> OES2 SP3 Post Installation Tuning script</purpose>
+        <version>0.1.9</version>
+        <author>David Robb</author>
+        <location>/home/david/bin/linux/oes/oes-tuning</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="052">
+        <id>052</id>
+        <uid/>
+        <name>sc-analysis.sh</name>
+        <purpose> Script is used to take a supportconfig of a server and upload it to the SCA Appliance</purpose>
+        <version>0.1.7</version>
+        <author>David Robb</author>
+        <location>/home/david/bin/linux/supportconfig</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="053">
+        <id>053</id>
+        <uid/>
+        <name>sc-clean.sh</name>
+        <purpose> Remove hostname and IP Address information from a supportconfig collection</purpose>
+        <version>0.2.6</version>
+        <author>David Robb</author>
+        <location>/home/david/bin/linux/supportconfig</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="054">
+        <id>054</id>
+        <uid/>
+        <name>sc-config.sh</name>
+        <purpose> Installation and configuration settings for supportutil tools</purpose>
+        <version>0.1.14</version>
+        <author>David Robb</author>
+        <location>/home/david/bin/linux/supportconfig</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="055">
+        <id>055</id>
+        <uid/>
+        <name>remlocks.sh</name>
+        <purpose> Automatically remove locks from packages using zypper rl</purpose>
+        <version>0.1.4</version>
+        <author>David Robb</author>
+        <location>/home/david/bin/linux/zypper</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="056">
+        <id>056</id>
+        <name>repo-update.sh</name>
+        <uid/>
+        <purpose> Automatically add the correct repositories for OES11 SP1 or OES11 SP2</purpose>
+        <version>0.1.3</version>
+        <author>David Robb</author>
+        <location>/home/david/bin/linux/zypper</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="057">
+        <id>057</id>
+        <uid/>
+        <name>oes-rcmp-pit.sh</name>
+        <purpose> RCMP Post Installation script for OES2 SP2/SP3</purpose>
+        <version>0.1.5</version>
+        <author>David Robb</author>
+        <location>/home/david/bin/rcmp/tuning</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="058">
+        <id>058</id>
+        <uid/>
+        <name>sudoerconf.sh</name>
+        <purpose> RCMP SUDO configuration script - all regional trees</purpose>
+        <version>0.1.3</version>
+        <author>David Robb</author>
+        <location>/home/david/bin/rcmp/tuning</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="059">
+        <id>059</id>
+        <uid/>
+        <name>sudoerconf.sh</name>
+        <purpose> RCMP SUDO configuration script for ATLANTIC Tree</purpose>
+        <version>0.1.4</version>
+        <author>David Robb</author>
+        <location>/home/david/bin/rcmp/tuning/atlantic</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="060">
+        <id>060</id>
+        <uid/>
+        <name>bkup-rsync.sh</name>
+        <purpose> Rsync backup script to move previously created backup files</purpose>
+        <version>0.1.3</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/backup</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="061">
+        <id>061</id>
+        <uid/>
+        <name>md5sum_cifs.sh</name>
+        <purpose> Record the md5 values of critical CIFS files</purpose>
+        <version>0.1.2</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/cifs</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="062">
+        <id>062</id>
+        <uid/>
+        <name>namcd-mon.sh</name>
+        <purpose> Monitor and restart namcd if it crashes</purpose>
+        <version>0.1.2</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/daemon/namcd-mon</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="063">
+        <id>063</id>
+        <uid/>
+        <name>rstrtnamcd.sh</name>
+        <purpose> SSC restart script for namcd daemon</purpose>
+        <version>0.1.4</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/daemon/rstrtnamcd</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="064">
+        <id>064</id>
+        <uid/>
+        <name>ndsd-collect.sh</name>
+        <purpose> A script to collect a gstack, ps, and gcore of ndsd if ndsd</purpose>
+        <version>0.1.2</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/edir/ndsd-collect</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="065">
+        <id>065</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="066">
+        <id>066</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="067">
+        <id>067</id>
+        <uid/>
+        <name>sev-detect.sh</name>
+        <purpose> Detect SEV maintenance error messages and send email</purpose>
+        <version>0.1.2</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/nss/sev-detect</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="068">
+        <id>068</id>
+        <uid/>
+        <name>core-checker.sh</name>
+        <purpose> Script to check for the existance of core files and alert the </purpose>
+        <version>0.1.7</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/oes/core-checker</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="069">
+        <id>069</id>
+        <uid/>
+        <name>core-cleanup.sh</name>
+        <purpose> A script to cleanup old cores after the core has been processed.</purpose>
+        <version>0.1.6</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/oes/core-checker</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="070">
+        <id>070</id>
+        <uid/>
+        <name>core-config.sh</name>
+        <purpose> Script to configure an OES server to write application cores to </purpose>
+        <version>0.1.6</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/oes/core-checker</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="071">
+        <id>071</id>
+        <uid/>
+        <name>oes-mem-mon.sh</name>
+        <purpose> Script to monitor the memory usage on an OES server</purpose>
+        <version>0.1.2</version>
+        <author>David Robb</author>
+        <location>/home/david/scripts/linux/oes/memory_monitor</location>
+      </sid>
+    </script>
+    <script>
+      <sid id="072">
+        <id>072</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="073">
+        <id>073</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="074">
+        <id>074</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="075">
+        <id>075</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="076">
+        <id>076</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="077">
+        <id>077</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="078">
+        <id>078</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="079">
+        <id>079</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="080">
+        <id>080</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="081">
+        <id>081</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="082">
+        <id>082</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="083">
+        <id>083</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="084">
+        <id>084</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="085">
+        <id>085</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="086">
+        <id>086</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="087">
+        <id>087</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="088">
+        <id>088</id>
+        <uid/>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="089">
+        <id>089</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="090">
+        <id>090</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="091">
+        <id>091</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="092">
+        <id>092</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="093">
+        <id>093</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="094">
+        <id>094</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="095">
+        <id>095</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="096">
+        <id>096</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="097">
+        <id>097</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="098">
+        <id>098</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="099">
+        <id>099</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+    <script>
+      <sid id="100">
+        <id>100</id>
+        <uid/>
+        <name/>
+        <purpose/>
+        <version/>
+        <author/>
+        <location/>
+      </sid>
+    </script>
+  </scripts>
+</catalog>

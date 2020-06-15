@@ -1,0 +1,78 @@
+#!/bin/bash
+#===============================================================================
+#
+#          FILE: smt-mirror.sh
+# 
+#         USAGE: ./smt-mirror.sh 
+# 
+#   DESCRIPTION: Script to mirror all configured repositories from NCC or SCC
+#
+#                Copyright (C) 2016  David Robb
+#
+#        GPL v2: This program is free software: you can redistribute it and/or
+#                modify it under the terms of the GNU General Public License
+#                as published by the Free Software Foundation; either version 2
+#                of the License, or (at your option) any later version.
+#
+#                This program is distributed in the hope that it will be useful,
+#                but WITHOUT ANY WARRANTY; without even the implied warranty of
+#                MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#                GNU General Public License for more details.
+#
+#                You should have received a copy of the GNU General Public License
+#                along with this program; if not, write to the Free Software
+#                Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.)
+#
+#       OPTIONS: ---
+#  REQUIREMENts: ---
+#          BUGS: Report bugs to David Robb, david.robb@microfocus.com, 613-793-2281
+#         NOTES: ---
+#        AUTHOR: David Robb (DER), david.robb@microfocus.com
+#  ORGANIZATION: Micro Focus Software (Canada) Inc
+#       CREATED: 
+#  LAST UPDATED: Thu Jul 12 2018 13:21
+#       VERSION: 7
+#     SCRIPT ID: ---
+# SSC UNIQUE ID: 00
+#===============================================================================
+version=0.1.7                                   # version number of the script
+sid=000                                         # personal script id number
+uid=00                                          # SSC/RCMP script id number
+ts=$(date +"%b %d %T")                          # general date/time stamp
+ds=$(date +%a)                                  # abbreviated day of the week, eg Mon
+df=$(date +%A)                                  # full day of the week, eg Monday
+host=$(hostname)                                # host name of local server
+user=$(whoami)                                  # who is running the script
+email=root                                      # who to send email to (comma separated list)
+log='/var/log/smt/smt-mirror.log'               # logging (if required)
+
+# Generate a list of all the Update repositories
+/usr/sbin/smt-repos -o -v | grep -B 1 "Repository ID" | sed '/sles-10-x86_64/, +2d' | grep "Repository ID" | awk '{ print $3 }' > /root/bin/repo-id
+
+# Script to mirror all configured Update repositories only (no need to remirror Pools)
+num=$(cat /root/bin/repo-id)
+for i in $num
+  do
+    /usr/sbin/smt-mirror -L ${log} --repository $i
+  done
+
+# /usr/sbin/smt-mirror -L ${log}
+
+# Completion message
+echo ""
+echo "---------------------------------------------------------------------"
+echo "SMT Updated - Repositories mirrored from NCC"
+echo "---------------------------------------------------------------------"
+echo "All configured update repositories have been mirrored down from NCC."
+echo "Don't forget to Stage the updated repositories to" 
+echo "testing and production."
+echo "---------------------------------------------------------------------"
+echo "Have fun patching ..."
+echo ""
+
+# Cleanup
+rm -f /root/bin/repo-id
+
+# Finished
+exit 1
+

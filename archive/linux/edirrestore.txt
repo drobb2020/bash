@@ -1,0 +1,11 @@
+
+An eDirectory restore has been performed on the server listed in the subject line. 
+
+If you did not perform this restore, please check to find out who did and document the reason.
+
+All eDirectory and nici files have been restored to their original versions and locations. This restore does not affect the binary version of the RPM packages for eDirectory or NICI.
+
+Thank you,
+
+eDirectory Reports
+

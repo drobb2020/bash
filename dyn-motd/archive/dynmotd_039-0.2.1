@@ -1,0 +1,264 @@
+#!/bin/bash - 
+#===============================================================================
+#
+#          FILE: dynmotd
+# 
+#         USAGE: /usr/local/bin/dynmotd 
+# 
+#   DESCRIPTION: A dynamic Message of the Day instead of /etc/motd
+#
+#                Copyright (C) 2015  David Robb
+#        GPL v3: This program is free software: you can redistribute it and/or 
+#                modify it under the terms of the GNU General Public License as
+#                published by the Free Software Foundation, either version 3 of
+#                the License, or (at your option) any later version.
+#
+#                This program is distributed in the hope that it will be useful,
+#                but WITHOUT ANY WARRANTY; without even the implied warranty of
+#                MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#                GNU General Public License for more details.
+#
+#                You should have received a copy of the GNU General Public
+#                License along with this program.  If not,
+#                see <http://www.gnu.org/licenses/>. 
+#
+#       OPTIONS: Run script by adding the command /usr/local/bin/dynmotd to ~/.profile
+#  REQUIREMENTS: /etc/motd-chglg, /etc/motd-maint
+#          BUGS: Report bugs to David Robb, david.robb@microfocus.com, 613-793-2281
+#         NOTES: ---
+#        AUTHOR: David Robb (DER), david.robb@microfocus.com
+#  ORGANIZATION: Micro Focus
+#       CREATED: Tue Jul 21 2015 10:30
+#  LAST UPDATED: Sat Dec 30 2017 10:25
+#      REVISION: 1
+#     SCRIPT ID: 039
+#===============================================================================
+# set -o nounset                                  # Treat unset variables as an error
+version=0.2.1                                     # version
+sid=039                                           # script ID number
+ts=$(/usr/bin/date +"%b %d %T")                   # general date/time stamp
+host=$(/bin/hostname -f)                          # host name of local server
+user=$(/usr/bin/whoami)                           # user checking routine
+org='Excession Systems Production Network'        # Organization name
+admin=david.robb@excession.org                    # e-mail address of designated administrator
+dse=david.robb@microfocus.com                     # e-mail address of Dedicated support Engineer
+log='/var/log/dynmotd.log'                        # logging (if required)
+columns=65                                        # Width of displayed results
+WHO=$(/usr/bin/whoami)                            # Check who is running the script
+
+# Primary IP Address of server
+IPP=$(/bin/ip a s | grep -w "inet" | grep -v 127 | grep -v secondary | awk -vORS=, '{print $2}' | sed 's/,$/\n/')
+
+# Secondary IP Address(s) of server
+IPS=$(/bin/ip a s | grep -w "inet" | grep secondary | grep -v 127 | awk -vORS=, '{print $2}' | sed 's/,$/\n/')
+
+# Linux and NSS space consumption
+SPACE=`df -h | grep /dev/mapper | awk '{print $5}' | grep % | grep -v Use | sort -n | tail -1 | cut -d "%" -f1 -`
+SPACENSS=`df -h | grep /dev/pool | awk '{print $5}' | grep % | grep -v Use | sort -n | tail -1 | cut -d "%" -f1 -`
+ALTVAL="80"
+
+PN=`df -h | grep /dev/mapper | awk '{print $1, $5}' | awk '{print $NF,$0}' | sort -n | cut -f2- -d' ' | tail -1 | awk '{print $1}' | cut -f4 -d"/"`
+PNSS=`df -h | grep /dev/pool | awk '{print $1, $5}' | awk '{print $NF,$0}' | sort -n | cut -f2- -d' ' | tail -1 | awk '{print $1}' | cut -f4 -d"/"`
+
+# Processor count and model
+PROCS=$(cat /proc/cpuinfo | grep processor | wc -l)
+MODEL=$(cat /proc/cpuinfo | grep "model name" | awk 'NR==1{ print $4,$5,$6,$7,$8,$9 }')
+
+# Process count
+PROCCOUNT=`ps -Afl | wc -l`
+PROCCOUNT=`expr $PROCCOUNT - 5`
+GROUPZ=`groups`
+
+# OS and OES version information
+if [ -f /etc/os-release ]; then
+  OSVER=$(cat /etc/os-release | grep -w PRETTY_NAME | cut -f 2 -d "=" | sed 's/\"//g' | awk '{print $1,$2,$3,$4,$5,$6}')
+  # OSSP=$(cat /etc/os-release | grep -w PRETTY_NAME | awk '{print $6}' | sed 's/\"//g')
+else
+  OSVER=$(cat /etc/S*release | awk 'NR==1{print $1,$2,$3,$4,$5}')
+  OSSP=$(cat /etc/S*release | awk 'NR==3{print $3}')
+fi
+
+if [ -f /etc/novell-release ]; then
+  OESVER=`cat /etc/n*release | awk 'NR==1{print $1,$2,$3,$4,$5}'`
+  OESSP=`cat /etc/n*release | awk 'NR==3{print $3}'`
+else
+  OESVER="OES Not installed or configured"
+  OESSP="N/A"
+fi
+
+if [ -f /etc/os-release ]; then
+  os=$(cat /etc/os-release | grep -w VERSION | cut -f 2 -d "=" | sed 's/\"//g' | cut -f 1 -d ".")
+fi
+
+# Services started, failed, or skipped
+if [ $os = 11 ]; then
+  if [ -z $(cat /var/log/boot.msg | grep -w Failed) ]; then
+    FAILED="No failed services on startup"
+  else
+    FAILED=$(cat /var/log/boot.msg | grep Failed | awk -F ':' '{print $NF}' | sed -e 's/^[ \t]*//')
+  fi
+  if [ -z $(cat /var/log/boot.msg | grep -w "Skipped services" | cut -f 1 -d ' ') ]; then
+    SKIPPED="No skipped services on startup"
+  else
+    SKIPPED=$(cat /var/log/boot.msg | grep "Skipped services" | awk -F ':' '{print $NF}' | sed -e 's/^[ \t]*//')
+  fi
+  STARTED=$(cat /var/log/boot.msg | grep -c "exits with status 0")
+  STRTSUC="$STARTED daemons successfully started"
+fi
+
+if [ $os = "12-SP1" ]; then
+  if [ -z $(cat /var/log/boot.log | grep -w Failed) ]; then
+    FAILED="No failed services on startup"
+  else
+    FAILED=$(cat /var/log/boot.log | grep Failed | awk -F ':' '{print $NF}' | sed -e 's/^[ \t]*//')
+  fi
+  if [ -z $(cat /var/log/boot.log | grep -w "Skipped services" | cut -f 1 -d ' ') ]; then
+    SKIPPED="No skipped services on startup"
+  else
+    SKIPPED=$(cat /var/log/boot.log | grep "Skipped services" | awk -F ':' '{print $NF}' | sed -e 's/^[ \t]*//')
+  fi
+  STARTED=$(cat /var/log/boot.log | grep -c Started)
+  STRTSUC="$STARTED daemons successfully started"
+fi
+
+if [ $os = "12-SP2" ]; then
+  if [ -z $(cat /var/log/boot.log | grep -w Failed) ]; then
+    FAILED="No failed services on startup"
+  else
+    FAILED=$(cat /var/log/boot.log | grep Failed | awk -F ':' '{print $NF}' | sed -e 's/^[ \t]*//')
+  fi
+  if [ -z $(cat /var/log/boot.log | grep -w "Skipped services" | cut -f 1 -d ' ') ]; then
+    SKIPPED="No skipped services on startup"
+  else
+    SKIPPED=$(cat /var/log/boot.log | grep "Skipped services" | awk -F ':' '{print $NF}' | sed -e 's/^[ \t]*//')
+  fi
+  STARTED=$(cat /var/log/boot.log | grep -c Started)
+  STRTSUC="$STARTED daemons successfully started"
+fi
+
+if [ $os = "12-SP3" ]; then
+  if [ -z $(cat /var/log/boot.log | grep -w failed) ]; then
+    FAILED="No failed services on startup"
+  else
+    FAILED=$(cat /var/log/boot.log | grep Failed | awk -F ':' '{print $NF}' | sed -e 's/^[ \t]*//')
+  fi
+  if [ -z $(cat /var/log/boot.log | grep -w "Skipped services" | cut -f 1 -d ' ') ]; then
+    SKIPPED="No skipped services on startup"
+  else
+    SKIPPED=$(cat /var/log/boot.log | grep "Skipped services" | awk -F ':' '{print $NF}' | sed -e 's/^[ \t]*//')
+  fi
+  STARTED=$(cat /var/log/boot.log | grep -c Started)
+  STRTSUC="$STARTED daemons successfully started"
+fi
+
+# Run level information
+if [ $os = 11 ]; then
+  RL=$(/usr/bin/who -r | awk '{print $2}')
+else
+  RL=$(systemctl --type=target --state=active | egrep 'graphical|multi-user|rescue' | awk '{ print $1 }' | awk 'NR==1{ print $1 }')
+fi
+
+# Group and Privelege information
+if [[ $GROUPZ == *users* ]]; then
+  ENDSESSION=`cat /etc/security/limits.conf | grep "@users" | grep maxlogins | awk {'print $4'}`
+  PRIVLAGED="Local User Account"
+elif [ $WHO == root ]; then
+  ENDSESSION="Unlimited"
+  PRIVLAGED="Super User Account"
+else
+  ENDSESSION="Unlimited"
+  PRIVLAGED="LUM-Enabled User Account"
+fi
+
+# eDirectory Information (if installed)
+ndsconf='/etc/opt/novell/eDirectory/conf/nds.conf'
+if [ -e ${ndsconf} ]; then
+  ndsbin='/opt/novell/eDirectory/bin'
+  sn=$(sudo $ndsbin/ndsstat -r | awk 'NR==2{ print $5}' | cut -f 1 -d'.')
+  TREE=$(sudo $ndsbin/ndsstat | grep Tree | awk '{ print $3 }')
+  CTX=$(sudo $ndsbin/ndsstat | grep Server | awk '{ print $3 }' | cut -f 3-5 -d '.')
+  EDIRVER=$(sudo $ndsbin/ndsstat | grep Product | awk '{ print $3,$4,$5,$6,$7,$8 }')
+  BINVER=$(sudo $ndsbin/ndsstat | grep Binary | awk '{ print $3 }')
+  REPCNT=$(sudo $ndsbin/ndsstat -r | grep 'Replicas of Partition' | wc -l)
+  REPTYPE=$(sudo $ndsbin/ndsstat -r | grep "$sn" | awk 'NR==2{ print $2 }')
+  REPSTATE=$(sudo $ndsbin/ndsstat -r | grep "$sn" | awk 'NR==2{ print $3 }')
+else
+  TREE='eDirectory not installed'
+  CTX=''
+  EDIRVER=''
+  BINVER=''
+  REPCNT=''
+  REPTYPE=''
+  REPSTATE=''
+fi
+
+# uptime with tuptime
+SLTIME=$(sudo tuptime | grep -i "system life:" | cut -f 2 -d ":" | sed -e 's/^[ \t]*//')
+SUTIME=$(sudo tuptime | grep -i "system uptime:" | cut -f 2 -d ":" | sed -e 's/^[ \t]*//')
+CUTIME=$(sudo tuptime | grep -i "current uptime:" | cut -f 2-6 -d ":" | sed -e 's/^[ \t]*//')
+
+# Linux and NSS space calculations
+if [[ $SPACE == $ALTVAL ]]; then
+  DA="The Linux Partition: $PN is at $SPACE % full!"
+else
+  DA="Linux partition space usage is normal"
+fi
+if [ -f /var/run/novell-nss/nssstartup.lock ]; then
+  if [[ $SPACENSS == $ALTVAL ]]; then
+    NSSDA="The NSS Pool: $PNSS is at $SPACENSS % full!"
+  else
+    NSSDA="NSS Pool space usage is normal"
+  fi
+else
+  NSSDA="NSS not installed"
+fi
+
+# Display the information collected
+title=$(printf "%*s\n" $(((${#org}+$columns)/2)) "$org")
+clear
+
+echo -e "\033[1;32m
+\033[37;1m$title\033[37;1m
+\033[0;35m+++++++++++++++++++++++++: \033[0;37mSystem Data\033[0;35m :+++++++++++++++++++++++++
++  \033[0;37m        Hostname \033[0;35m= \033[1;32m`hostname`
+\033[0;35m+   \033[0;37mPrimary IP Addr \033[0;35m= \033[1;32m$IPP
+\033[0;35m+ \033[0;37mSecondary IP Addr \033[0;35m= \033[1;32m$IPS
+\033[0;35m+            \033[0;37mKernel \033[0;35m= \033[1;32m`uname -r`
+\033[0;35m+       \033[0;37mSystem Life \033[0;35m= \033[1;32m$SLTIME
+\033[0;35m+     \033[0;37mSystem Uptime \033[0;35m= \033[1;32m$SUTIME
+\033[0;35m+    \033[0;37mCurrent Uptime \033[0;35m= \033[1;32m$CUTIME
+\033[0;35m+         \033[0;37mLast Boot \033[0;35m= \033[1;32m`last reboot -F | head -1 | awk '{print $5,$6,$7,$8,$9}'`
+\033[0;35m+               \033[0;37mCPU \033[0;35m= \033[1;32m"$PROCS x $MODEL"
+\033[0;35m+            \033[0;37mMemory \033[0;35m= \033[1;32m`cat /proc/meminfo | grep MemTotal | awk {'print $2'}` kB
+\033[0;35m++++++++++++++++++++++++++: \033[0;37mUser Data\033[0;35m :++++++++++++++++++++++++++
++  \033[0;37m        Username \033[0;35m= \033[1;32m$WHO
+\033[0;35m+         \033[0;37mPrivlages \033[0;35m= \033[1;32m$PRIVLAGED
+\033[0;35m+          \033[0;37mSessions \033[0;35m= \033[1;32m`who | grep $USER | wc -l` of $ENDSESSION Connections
+\033[0;35m+         \033[0;37mProcesses \033[0;35m= \033[1;32m$PROCCOUNT of `ulimit -u` MAX
+\033[0;35m++++++++++++++++++++++++++: \033[0;37mServices\033[0;35m :+++++++++++++++++++++++++++
+\033[0;35m+  \033[0;37mCurrent runlevel \033[0;35m= \033[1;32m$RL
+\033[0;35m+  \033[0;37mStarted Services \033[0;35m= \033[1;32m$STRTSUC
+\033[0;35m+   \033[0;37mFailed Services \033[0;35m= \033[1;32m$FAILED
+\033[0;35m+  \033[0;37mSkipped Services \033[0;35m= \033[1;32m$SKIPPED
+\033[0;35m+++++++++++++++++++++++++: \033[0;37meDirectory\033[0;35m :++++++++++++++++++++++++++
+\033[0;35m+  \033[0;37m       Tree Name \033[0;35m= \033[1;32m$TREE
+\033[0;35m+  \033[0;37m  Server Context \033[0;35m= \033[1;32m$CTX
+\033[0;35m+  \033[0;37m    eDir Version \033[0;35m= \033[1;32m$EDIRVER
+\033[0;35m+  \033[0;37m  Binary Version \033[0;35m= \033[1;32m$BINVER
+\033[0;35m+  \033[0;37m   # of Replicas \033[0;35m= \033[1;32m$REPCNT
+\033[0;35m+  \033[0;37m    Replica Type \033[0;35m= \033[1;32m$REPTYPE
+\033[0;35m+  \033[0;37m   Replica State \033[0;35m= \033[1;32m$REPSTATE
+\033[0;35m++++++++++++++++++++++: \033[0;37mDisk Space Alert\033[0;35m :+++++++++++++++++++++++
++  \033[0;37m      Disk Usage \033[0;35m= \033[1;32m$DA
+\033[0;35m+   \033[0;37m NSS Disk Usage \033[0;35m= \033[1;32m$NSSDA
+\033[0;35m+++++++++++++++++++++: \033[0;37mHelpful Information\033[0;35m :+++++++++++++++++++++
+\033[0;35m+        \033[0;37mOS Version \033[0;35m= \033[1;32m$OSVER
+\033[0;35m+       \033[0;37mOES Version \033[0;35m= \033[1;32m$OESVER
+\033[0;35m+          \033[0;37mSP level \033[0;35m= \033[1;32m$OESSP
+\033[0;35m+             \033[0;37mAdmin \033[0;35m= \033[1;32m$admin
+\033[0;35m+               \033[0;37mDSE \033[0;35m= \033[1;32m$dse
+\033[37;1m`cat /etc/motd-maint`
+\033[37;1m`cat /etc/motd-chglg`
+\033[37;1m`cat /etc/motd-warning`
+\e[0m"
+

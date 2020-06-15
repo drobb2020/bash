@@ -1,0 +1,40 @@
+#!/bin/bash
+REL=0.01-2
+##############################################################################
+#
+#    oesusers.sh - Show how many and who is logged in from the console
+#    Copyright (C) 2012  David Robb, drobb@novell.com
+#
+##############################################################################
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+# Date Created: Tue Mar 22 11:53:52 EDT 2011
+# Last updated: Mon Apr 16 13:55:51 2012 
+# Crontab command: not suggested
+# Supporting file: none
+# Additional notes: 
+##############################################################################
+clear
+echo "These users are currently logged in:"
+
+ncpcon connection list | grep CN | grep -v NOT | grep -v workstations | cut -f 2 | sort | uniq -i | grep -v [*]
+echo " "
+echo " "
+echo "There are `ncpcon connection list | grep CN | grep -v NOT | grep -v workstations | cut -f 2 | sort | uniq -i | grep -v [*] | wc -l` users logged in at this moment."
+echo " "
+echo " "
+exit
+

@@ -1,0 +1,50 @@
+#!/bin/bash
+REL=0.1-3
+##############################################################################
+#
+#    own  Take ownership of any file by supplying the username of the account
+#         you want to be owner and the current owner account name
+#    Copyright (C) 2014  David Robb
+#
+##############################################################################
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+# Date Created: Wed Aug 20 08:13:32 2014 
+# Last updated: Wed Aug 20 08:22:18 2014 
+# Crontab command: not recommended
+# Supporting file: none
+# Additional notes: none
+##############################################################################
+
+function helpme() { 
+	echo "-------------------------------------------------------"
+  echo "The correct command line syntax is ./own username owner"
+	echo "for example: ./own a00212363 root"
+	echo "-------------------------------------------------------"
+	exit 1
+}
+
+if [ $# -lt 2 ] 
+    then
+	echo "There are not enough arguments on the command line." > /dev/stderr
+	helpme
+    else
+	/usr/bin/find /home/$1 -user $2 -exec chown -Rv $1.elss_sudo_root {} \;
+fi
+
+exit 1
+
+

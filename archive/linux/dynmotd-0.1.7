@@ -1,0 +1,141 @@
+#!/bin/bash - 
+#===============================================================================
+#
+#          FILE: dynmotd
+# 
+#         USAGE: ./dynmotd 
+# 
+#   DESCRIPTION: A dynamic Message of the Day instead of /etc/motd
+#
+#                Copyright (C) 2015  David Robb
+#        GPL v3: This program is free software: you can redistribute it and/or 
+#                modify it under the terms of the GNU General Public License as
+#                published by the Free Software Foundation, either version 3 of
+#                the License, or (at your option) any later version.
+#
+#                This program is distributed in the hope that it will be useful,
+#                but WITHOUT ANY WARRANTY; without even the implied warranty of
+#                MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#                GNU General Public License for more details.
+#
+#                You should have received a copy of the GNU General Public
+#                License along with this program.  If not,
+#                see <http://www.gnu.org/licenses/>. 
+#
+#       OPTIONS: Run script by adding the command /usr/local/bin/dynmotd to ~/.profile
+#  REQUIREMENTS: /etc/motd-chglg, /etc/motd-maint
+#          BUGS: Report bugs to David Robb, drobb@novell.com, 613-793-2281
+#         NOTES: ---
+#        AUTHOR: David Robb (DER), david.robb@microfocus.com
+#  ORGANIZATION: Micro Focus
+#       CREATED: Tue Jul 21 2015 10:30
+#  LAST UPDATED: Fri Aug 21 2015 11:44
+#      REVISION: 7
+#     SCRIPT ID: 039
+#===============================================================================
+
+set -o nounset                                  # Treat unset variables as an error
+version=0.1.7                                   # Version of the script
+sid=039                                         # script ID number
+ts=$(date +"%b %d %T")                          # general date/time stamp
+host=$(hostname)                                # host name of local server
+user=$(whoami)                                  # user checking routine
+org=Excession Systems Research and Development  # Organization name
+email=root                                      # default email value
+log='/var/log/dynmotd.log'                      # logging (if required)
+
+WHO=$(whoami)
+IP1=$(/bin/ip a s | grep -w "inet" | grep -v 127 | awk '{print $2;}')
+
+SPACE=`df -h | grep /dev/mapper | awk '{print $5}' | grep % | grep -v Use | sort -n | tail -1 | cut -d "%" -f1 -`
+SPACENSS=`df -h | grep /dev/pool | awk '{print $5}' | grep % | grep -v Use | sort -n | tail -1 | cut -d "%" -f1 -`
+ALTVAL="80"
+
+PN=`df -h | grep /dev/mapper | awk '{print $1, $5}' | awk '{print $NF,$0}' | sort -n | cut -f2- -d' ' | tail -1 | awk '{print $1}' | cut -f4 -d"/"`
+PNSS=`df -h | grep /dev/pool | awk '{print $1, $5}' | awk '{print $NF,$0}' | sort -n | cut -f2- -d' ' | tail -1 | awk '{print $1}' | cut -f4 -d"/"`
+
+PROCCOUNT=`ps -Afl | wc -l`
+PROCCOUNT=`expr $PROCCOUNT - 5`
+GROUPZ=`groups`
+
+if [ -z $(cat /var/log/boot.msg | grep Failed) ]; then
+  FAILED=None
+else
+  FAILED=$(cat /var/log/boot.msg | grep Failed | awk '{print $NF}')
+fi
+
+if [ -z $(cat /var/log/boot.msg | grep -w Skipped | egrep -v "<*>" | grep -v "Skipped Features" ) ]; then
+  SKIPPED=None
+else
+  SKIPPED=$(cat /var/log/boot.msg | grep Skipped | awk '{print $NF}' | grep -v boot)
+fi
+
+RL=$(runlevel | awk '{print $NF}')
+ 
+if [[ $GROUPZ == *users* ]]; then
+  ENDSESSION=`cat /etc/security/limits.conf | grep "@users" | grep maxlogins | awk {'print $4'}`
+  PRIVLAGED="Local User Account"
+elif [ $WHO == root ]; then
+  ENDSESSION="Unlimited"
+  PRIVLAGED="Super User Account"
+else
+  ENDSESSION="Unlimited"
+  PRIVLAGED="LUM-Enabled User Account"
+fi
+
+if [[ $SPACE == $ALTVAL ]]; then
+  DA="The Linux Partition: $PN is at $SPACE % full!"
+else
+  DA="Linux partition space usage is normal"
+fi
+if [ -f /var/run/novell-nss/nssstartup.lock ]; then
+  if [[ $SPACENSS == $ALTVAL ]]; then
+    NSSDA="The NSS Pool: $PNSS is at $SPACENSS % full!"
+  else
+    NSSDA="NSS Pool space usage is normal"
+  fi
+else
+  NSSDA="NSS is not install or configured"
+fi
+
+if [ -f /etc/novell-release ]; then
+  OESVER=`cat /etc/n*release | awk 'NR==1{print $1,$2,$3,$4,$5}'`
+  SP=`cat /etc/n*release | awk 'NR==3{print $3}'`
+else
+  OESVER='OES Not installed or configured'
+fi
+
+clear
+echo -e "\033[1;32m
+\033[37;1m     $org\033[37;1m
+\033[0;35m+++++++++++++++++++++: \033[0;37mSystem Data\033[0;35m :+++++++++++++++++++++
++  \033[0;37m      Hostname \033[0;35m= \033[1;32m`hostname`
+\033[0;35m+         \033[0;37mAddress \033[0;35m= \033[1;32m$IP1
+\033[0;35m+          \033[0;37mKernel \033[0;35m= \033[1;32m`uname -r`
+\033[0;35m+          \033[0;37mUptime \033[0;35m= \033[1;32m`uptime | awk '{print $3, $4, $5;}'| sed -e 's/,//'`
+\033[0;35m+             \033[0;37mCPU \033[0;35m= \033[1;32m4x Intel(R) Xeon(R) E5620 @ 2.40GHz
+\033[0;35m+          \033[0;37mMemory \033[0;35m= \033[1;32m`cat /proc/meminfo | grep MemTotal | awk {'print $2'}` kB
+\033[0;35m++++++++++++++++++++++: \033[0;37mServices\033[0;35m :+++++++++++++++++++++++
+\033[0;35m+\033[0;37mCurrent runlevel \033[0;35m= \033[1;32m$RL
+\033[0;35m+ \033[0;37mFailed Services \033[0;35m= \033[1;32m$FAILED
+\033[0;35m+\033[0;37mSkipped Services \033[0;35m= \033[1;32m$SKIPPED
+\033[0;35m++++++++++++++++++++++: \033[0;37mUser Data\033[0;35m :++++++++++++++++++++++
++  \033[0;37m      Username \033[0;35m= \033[1;32m`whoami`
+\033[0;35m+       \033[0;37mPrivlages \033[0;35m= \033[1;32m$PRIVLAGED
+\033[0;35m+        \033[0;37mSessions \033[0;35m= \033[1;32m`who | grep $USER | wc -l` of $ENDSESSION Connections
+\033[0;35m+       \033[0;37mProcesses \033[0;35m= \033[1;32m$PROCCOUNT of `ulimit -u` MAX
+\033[0;35m++++++++++++++++++: \033[0;37mDisk Space Alert\033[0;35m :+++++++++++++++++++
++\033[0;37m      Disk Usage \033[0;35m= \033[1;32m$DA
+\033[0;35m+ \033[0;37m NSS Disk Usage \033[0;35m= \033[1;32m$NSSDA
+\033[0;35m+++++++++++++++++: \033[0;37mHelpful Information\033[0;35m :+++++++++++++++++
+\033[0;35m+      \033[0;37mOS Version \033[0;35m= \033[1;32m`cat /etc/S*release | awk 'NR==1{print $1,$2,$3,$4,$5}'`
+\033[0;35m+        \033[0;37mSP Level \033[0;35m= \033[1;32m`cat /etc/S*release | awk 'NR==3{print $3}'`
+\033[0;35m+     \033[0;37mOES Version \033[0;35m= \033[1;32m$OESVER
+\033[0;35m+        \033[0;37mSP level \033[0;35m= \033[1;32m$SP
+\033[0;35m+           \033[0;37mAdmin \033[0;35m= \033[1;32mdrobb@dev.excession.org
+\033[0;35m+             \033[0;37mDSE \033[0;35m= \033[1;32mdrobb@novell.com
+\033[0;35m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+\033[37;1m`cat /etc/motd-maint`
+\033[37;1m`cat /etc/motd-chglg`
+\e[0m"
+

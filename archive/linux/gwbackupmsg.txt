@@ -1,0 +1,12 @@
+
+Please find attached the GroupWise Backup Report including the MTA, and POA dbcopy log.
+
+Please review the files for errors and perform the necessary corrective action.
+
+These files should be stored on the network for historical reference.
+
+Copy the files to this network location:
+T:\Reports\GW\Backup\
+
+GWAdmin
+

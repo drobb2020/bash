@@ -1,0 +1,20 @@
+
+Please find attached this month's Support Config Report
+
+Please store this file for historical reference.
+
+The file should be copied to this location:
+T:\Reports\Linux Server Management\Supportconfig Reports
+
+This file can also be sent to Novell for additional support in the following manners:
+1. E-mail the tar ball to the assigned engineer
+2. Upload to ftp://ftp.novell.com/incoming (include SR# in name of file)
+3. Attach it to the Service Request at https://secure-support.novell.com/eService_enu
+4. Use the following command: supportconfig -ur <SR#>
+
+The results of the collection can also be viewed on the server in /root/reports/nts_<server_name>_<date_stamp>
+
+Thank you,
+
+eDirectory Reports
+
