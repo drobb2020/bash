@@ -1,0 +1,45 @@
+
+Please find attached today's SLES / OES2 Server Health Report.
+
+Please store this file for historical reference.
+
+The file should be copied to this location:
+T:\Reports\ServerHealthReports
+
+Please review the df -lh section and act on any partition that is reporting more than 75% full.
+
+Use the following find command to locate large files:
+
+find / -size +10240000c -exec du -h {} \; | less
+
+This command will find all files from the root of the drive on down that are larger than 10 MB.
+The command can be issued from a command line using either a terminal window on the GUI desktop (requires you to be at the console) or by using PuTTY. For the command to work completely you must be authenticated as root.
+
+Please review the Daemon Services section and ensure all critical services hosted by this server are running and responding correctly. If a daemon is stopped or dead, please PuTTY to the server and restart the affected service.
+
+Please review the OES2 Health section and act on any eDirectory problems. If you are unsure of running these commands by yourself, please contact David Robb to ensure you are doing the right thing before doing anything.
+
+To fix timesync issues:
+1. Open a PuTTY session to the server that is not in timesync.
+2. Authenticate as root
+3. Run the following command: rcntp restart - this will restart the ntp daemon and bring the server back into sync.
+4. Run the following command: ndsrepair -T - this will report the timesync status
+5. Exit the PuTTY session when satisfied
+
+To Fix Replica Sync issues:
+1. Open a PuTTY session to the server that is not in timesync.
+2. Authenticate as root
+3. Run the following command: ndsrepair -R -l y - this is local repair with the dib set locked
+4. Run the following command: ndsrepair -E - this will report the replica sync status. If issues are still reported, research the individual error numbers (i.e. -618, 625, etc...)
+5. Exit the PuTTY session when satisfied
+
+To fix stuck obits:
+1. Open a PuTTY session to the server that is not in timesync.
+2. Authenticate as root
+3. Run the following command: ndsrepair -C -Ad -OT - this resets the timestamp on all external references
+4. Run the following command: ndsrepair -C -Ad -A - this will report the external references on the server
+5. Exit the PuTTY session when satisfied
+
+Thanks,
+
+eDirectory Reports

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="SLES & OES Health Report" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script
+      src="./js/main.js"
+      type="text/javascript"
+      charset="utf-8"
+      defer
+    ></script>
+    <title>SLES & OES Health Report</title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        color: #333;
+        background: #f5f5f6;
+        margin-left: 3rem;
+      }
+    </style>
+  </head>
+  <body>
+    <br />
+    <h1>SLES & OES2 Server Health Report</h1>
+    <hr />
+    <p>Please find attached today's SLES and OES2 server health report.</p>
+    <p>
+      The attached file should be stored for historical reference. Save the file
+      to this location: <u>T:\Reports\ServerHealthReports\</u>
+    </p>
+    <h2>SLES Health Report</h2>
+    <h3>SLES Version</h3>
+    <p>The SLES version should not change unless an upgrade was performed.</p>
+    <h3>OES2 Version</h3>
+    <p>The OES2 version should not change unless an update was performed.</p>
+    <h3>Kernel Version</h3>
+    <p>The Kernel version should not change unless an upgrade was performed.</p>
+    <h3>IP Address and Hostname</h3>
+    <p>
+      The IP Address should not change unless the server has been moved. The
+      hostname should not change unless the server has been renamed.
+    </p>
+    <h3>Server Uptime</h3>
+    <p>
+      If the server uptime is less than 24 hours please find out why the server
+      was rebooted within the last day. You can check for the last time the
+      server was rebooted by using the command <b>last reboot</b>. This will
+      report the exact date and time of the last server reboot.
+    </p>
+    <h3>Server Memory</h3>
+    <p>
+      Memory should be assigned with a small portion free, and there should be a
+      large number of cache buffers free, and swap should not be heavily used.
+      If the numbers look strange please investigate by using the
+      <b>top</b> command to see to which daemons are consuming the most memory.
+    </p>
+    <h3>File System Space Report</h3>
+    Please review the file system report and act on any partition that is
+    reporting more than 75% full. Use this command to locate large files:<br />
+    <b>find / -size +10240000c -exec du -h {} \; | less</b><br />
+    <p>
+      This command will find all files from the root of the file system that are
+      larger than 10 MB. The command should be issued from a terminal window
+      (local or remote). For best results you should be authenticated as root.
+    </p>
+    <h3>Critical Daemon Status</h3>
+    <p>
+      Please verify that all critical services are running and responding
+      correctly. If a daemon is stopped or dead, please PuTTY to the server and
+      restart the affected daemon.
+    </p>
+    <h2>OES2 Health Report</h2>
+    <p>
+      Please review the OES2 Health section and act on any eDirectory problems.
+      If you are unsure of running these commands by yourself please contact
+      your primary administrator to ensure you are doing the right thing before
+      doing anything.
+    </p>
+    <h3>NCP Connections</h3>
+    <p>
+      If the number of NCP connections seem to be abnormally high it may be that
+      watchdog is not running. In the Novell Remote Manger (NoRM) for the server
+      ensure that FIRST_WATCHDOG_PACKET is set to at least 5 (minutes).
+    </p>
+    <h3>NCP Service Statistics</h3>
+    <p>
+      When the cache numbers get very high it is an indication that the server
+      might require a reboot, particularly if users are finding access to
+      volumes slow.
+    </p>
+    <h3>NCP Thread Usage</h3>
+    <p>
+      NCP thread usage is a critical component to overall server health and
+      performance. If you consistently find that you are getting NCP thread
+      exhaustion you may need to increase the number of additional SSG threads.
+      This number can be set anywhere between 1 and 103, with 50 being a good
+      starting point.
+    </p>
+    <h3>NDS Status</h3>
+    <p>Please ensure that all servers are up and responding.</p>
+
+    <h3>Timesync Status</h3>
+    <p>All Servers should be "in sync" with a +/- tolerance of 2.</p>
+    <h4>To Fix timesync issues:</h4>
+    <ol>
+      <li>
+        Open a PuTTY or ssh session to the server that is not in timesync.
+      </li>
+      <li>Authenticate as root.</li>
+      <li>
+        Run the following command: <b>rcntp restart</b> <br /> this will restart the
+        ntp daemon and bring the server back into sync.
+      </li>
+      <li>
+        Run the following command: <b>ndsrepair -T</b> <br /> this will confirm that
+        the server is back in sync.
+      </li>
+      <li>Exit the PuTTY or ssh session when satisfied.</li>
+    </ol>
+    <h3>Replica Sync Status</h3>
+    <p>
+      All replica's should be "in sync", and there should be no evident
+      communications issues between servers.
+    </p>
+    <h4>To fix Replica sync issues:</h4>
+    <ol>
+      <li>
+        Open a PuTTY or ssh session to the server that is showing a replica sync
+        problem.
+      </li>
+      <li>Authenticate as root.</li>
+      <li>
+        Run the following command: <b>rcndsd restart</b> <br /> this will restart the
+        nds daemon.
+      </li>
+      <li>
+        Run the following command: <b>ndsrepair -E</b> <br /> this will report the
+        current replica sync status. If issues are present run the next command,
+        otherwise you can leave the session.
+      </li>
+      <li>
+        Run the following command: <b>ndsrepair -R -l y</b> <br /> this will run a
+        full repair with the database locked.
+      </li>
+      <li>
+        If issues are still present after the repair research the individual
+        error numbers (i.e -618, 625, etc...) and proceeded with the recommended
+        course of action to rectify the situation.
+      </li>
+      <li>Exit the PuTTY or ssh session when satisfied.</li>
+    </ol>
+    <h3>Obituary Status</h3>
+    <p>
+      An obituary is an object that has been deleted from the tree on one server
+      but has not or did not replicate to the server listing the obit.
+    </p>
+    
+    <section class="container">
+      <h4>To fix stuck Obits:</h4>
+      <ol>
+        <li>Open a PuTTY or ssh session to the server holding the obit(s).</li>
+        <li>Authenticate as root.</li>
+        <li>
+          Run the following command: <b>ndsrepair -C -Ad -OT</b> <br /> this will reset the timestamps on all external references, and process the obituaries.
+        </li>
+        <li>
+          Run the following command: <b>ndsrepair -C -Ad -A</b> <br /> this will report any remaining obituaries on the server. At this point there should be none.
+        </li>
+        <li>Exit the PuttY or ssh session when satisfied.</li>
+      </ol>
+    </section>
+    <div>
+      <p>
+        If you are unsure of running these commands by yourself, please contact
+        your eDirectory Administrator to ensure you are doing the right thing
+        before doing anything!
+      </p>
+    </div>
+    <div>
+      <p>
+        Thank you,<br /> eDirectory Reports
+      </p>
+    </div>
+    <hr />
+  </body>
+</html>

@@ -1,0 +1,38 @@
+
+Please find attached today's eDir Health Report.
+
+Please store this file for historical reference. 
+
+The file should be copied to this location: 
+T:\NetAdminGroup\Linux Server Management\eDir
+
+Please review the file and act on any eDirectory problems. 
+
+To fix timesync issues:
+1. Open a PuTTY session to the server that is not in timesync.
+2. Authenticate as root
+3. Run the following command: rcntp restart - this will restart the ntp daemon and bring the server back into sync.
+4. Run the following command: ndsrepair -T - this will report the timesync status
+5. Exit the PuTTY session when satisfied
+
+To Fix Replica Sync issues:
+1. Open a PuTTY session to the server that is not in timesync.
+2. Authenticate as root
+3. Run the following command: ndsrepair -U - this is a full unattended repair
+4. Run the following command: ndsrepair -E - this will report the replica sync status. If issues are still reported, research the
+   individual error numbers (i.e. -618, 625, etc...)
+5. Exit the PuTTY session when satisfied
+
+To fix stuck obits:
+1. Open a PuTTY session to the server that is not in timesync.
+2. Authenticate as root
+3. Run the following command: ndsrepair -C -Ad -OT - this resets the timestamp on all external references
+4. Run the following command: ndsrepair -C -Ad -A - this will report the external references on the server
+5. Exit the PuTTY session when satisfied
+
+If you are unsure of running these commands by yourself, 
+please contact David Robb to ensure you are doing the right thing before doing anything.
+
+Thanks,
+
+eDirectory Reports

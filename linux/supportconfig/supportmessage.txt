@@ -1,0 +1,12 @@
+Please find attached this month's Support Config Report.
+
+Please store this file for historical reference. 
+
+The file should be copied to this location: 
+T:\NetAdminGroup\Linux Server Management\Support
+
+This file can also be mailed to Novell for additional support requirements.
+
+Thank you,
+
+eDirectory Reports

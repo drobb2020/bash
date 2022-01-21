@@ -1,0 +1,101 @@
+#!/bin/bash
+# RELEASE=0.1.1
+# A script to manage eDirectory on OES2
+NDSBIN=/opt/novell/eDirectory/bin
+SBIN=/usr/sbin
+
+# Store values set by the user
+ADM=/tmp/admin.tmp.$$
+PSWD=/tmp/pswd.tmp.$$
+
+# Store menu options selected by the user
+INPUT=/tmp/menu.sh.$$
+
+# Storage file for displaying cal and date command output
+OUTPUT=/tmp/output.sh.$$
+
+# trap and delete temp files
+trap 'rm $OUTPUT; rm $INPUT; exit' SIGHUP SIGINT SIGTERM
+
+#
+# Purpose - display output using msgbox 
+#  $1 -> set msgbox height
+#  $2 -> set msgbox width
+#  $3 -> set msgbox title
+#
+function display_output(){
+	local h=${1-10}			# box height default 10
+	local w=${2-41} 		# box width default 41
+	local t=${3-Output} 	# box title 
+	dialog --backtitle "eDirectory Maintenance Tasks" --title "${t}" --clear --msgbox "$(<$OUTPUT)" "${h}" "${w}"
+}
+
+function edirrep () { 
+	$NDSBIN/ndsrepair -U
+	display_output 6 60 "Unattended ndsrepair" >$OUTPUT
+}
+
+function edirstat () { 
+	$SBIN/rcndsd status
+	display_output 6 60 "NDSD Current Status" >$OUTPUT
+}
+
+function edirchk () { 
+	$NDSBIN/ndscheck -a $ADM -w $PSWD >$OUTPUT
+	display_output 6 60 "Tree Health"
+}
+
+function edirlogin () {
+	$NDSBIN/ndslogin -t "$TREE" $ADM -p $PSWD >$OUTPUT
+	display_output 6 60 "Test Login to Tree"
+}
+
+function edirbkup () { 
+	$NDSBIN/ndsbackup cvf /opt/novell/eDirectory/eDir.bak -a $ADM >$OUTPUT
+	display_output 6 60 "Backup all eDirectory Objects"
+}
+
+function edirmng () { 
+	$NDSBIN/ndsmanage >$OUTPUT
+	display_output 6 60 "Configured Instances of eDirectory"
+}
+
+# set infinite loop
+while true
+do
+
+### display main menu ###
+dialog --clear  --help-button --backtitle "eDirectory Maintenance Tasks" \
+--title "[ M A I N - M E N U ]" \
+--menu "You can use the UP/DOWN arrow keys, the first \n\
+letter of the choice as a hot key, or the \n\
+number keys 1-9 to choose an option.\n\
+Choose the TASK" 19 60 8 \
+NDS_Repair "Repair eDirectory database" \
+NDSD_Status "Status of the eDirectory daemon" \
+Tree_Check "Check the health of eDirectory" \
+NDS_Login "Login to eDirectory" \
+NDS_Backup "Backup eDirectory objects" \
+NDS_Instances "Instances of eDirectory on this server" \
+Exit "Quit" 2>"${INPUT}"
+
+menuitem=$(<"${INPUT}")
+
+# make decision 
+case $menuitem in
+	NDS_Repair) edirrep;;
+	NDSD_Status) edirstat;;
+	Tree_Check) edirchk;;
+	NDS_Login) edirlogin;;
+	NDS_Backup) edirbkup;;
+	NDS_Instances) edirmng;;
+	Exit) echo "Bye"; clear; break;;
+esac
+
+done
+
+# if temp files found, delete em
+[ -f $OUTPUT ] && rm $OUTPUT
+[ -f $INPUT ] && rm $INPUT
+
+exit 0

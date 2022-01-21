@@ -1,0 +1,15 @@
+/var/opt/novell/tomcat6/logs/catalina.out {
+    su wwwrun www
+    compress
+    dateext
+    maxage 365
+    rotate 5
+    size=+100M
+    notifempty
+    missingok
+    copytruncate
+    postrotate
+	chmod 644 /var/opt/novell/tomcat6/logs/catalina.out
+    endscript
+}
+

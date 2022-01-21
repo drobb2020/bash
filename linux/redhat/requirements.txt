@@ -1,0 +1,10 @@
+Additional files for Red Hat Servers
+
+This is a script to install the additional necessary packages for various NetIQ products. In particular:
+
+1. eDirecory | iManager
+2. Identity Manager (IDM)
+3. Access Manager
+	a. Administration Console
+	b. Identity Server
+	c. Application Gateway

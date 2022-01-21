@@ -1,0 +1,67 @@
+\nPlease find attached today's $oesver Health Report.
+
+\n\nPlease store this file for historical reference.
+
+\n\nThe file should be copied to this location:
+\nT:\Reports\OES\HealthReports
+
+\n--[ Uptime and Memory Report ]------------------------------------------------
+\nServer uptime represents the time the server has been up since the last reboot, the number of users are users logged into the server, not NCP users. The load average is a sample for the last minute, 5 minutes, and 15 minutes.
+
+\n\nMemory usage displays the amount of free and used physical and swap memory in the system, as well as the buffers used by the kernel. The shared memory column is obsolete and always shows 0.
+
+\n\nVirtual memory statistics reports information about processes, memory, paging, block IO, traps, and CPU activity. Please see man vmstat for the definitions of the column headings.
+
+\n\n--[ Partition and Inode Report ]----------------------------------------------
+\nPlease review the file and act on any partition that is reporting more than 75% full.
+
+\n\nUse the find command to locate large files:
+
+\n\nfind / -size +10240000c -exec du -h {} \; | less
+
+\n\nThis command will find all files from the root of the drive on down that are larger than 10 MB.
+\nThe command can be issued from a command line using either a terminal window on the GUI desktop (requires you to be at the console) or by using PuTTY. For the command to work completely you must be authenticated as root.
+
+\n\nFree inodes are required to create new files and folders on Linux. Please review the list of used and free inodes for each Linux partition, and if you are running low on inodes you will need to formulate a plan to correct the condition.
+
+\n\n--[ Disk IO Statistics ]------------------------------------------------------
+\nThis report is generated using iostat, and gives a single point-in-time view of the disk IO for all partitions.
+
+\n\n--[ CPU Statistics ]----------------------------------------------------------
+\nThis report is generated using mpstat and gives a point-in-time view of the processor IO for all processors.
+
+\n\n--[ Daemon Report (SLES and OES) ]--------------------------------------------
+\nPlease review the Daemon Services section and ensure all critical services hosted by this server are running and responding correctly. If a daemon is stopped or dead, please PuTTY to the server and restart the affected service.
+
+\n\n--[ eDirectory Status ]-------------------------------------------------------
+\nPlease review the OES2 Health section and act on any eDirectory problems. If you are unsure of running these commands by yourself, please contact your System Administrator to ensure you are doing the right thing before doing anything.
+
+\n\nPlease review the file and act on any eDirectory problems.
+
+\nTo fix timesync issues:
+\n1. Open a PuTTY session to the server that is not in timesync.
+\n2. Authenticate as root
+\n3. Run the following command: rcntp restart - this will restart the ntp daemon and bring the server back into sync.
+\n4. Run the following command: ndsrepair -T - this will report the timesync status
+\n5. Exit the PuTTY session when satisfied
+
+\n\nTo Fix Replica Sync issues:
+\n1. Open a PuTTY session to the server that is showing a replica issue.
+\n2. Authenticate as root
+\n3. Run the following command: ndsrepair -R -c yes -l yes - this is will run a local database repair and check local references with the database locked.
+\n4. Run the following command: ndsrepair -E - this will report the replica sync status. If issues are still reported, research the individual error numbers (i.e. -618, 625, etc...)
+\n5. Exit the PuTTY session when satisfied
+
+\n\nTo fix stuck obits:
+\n1. Open a PuTTY session to the server that is showing obituaries.
+\n2. Authenticate as root.
+\n3. Run the following command: ndsrepair -C -Ad -OT - this command resets the timestamp on all external references an.d allow the obits to process
+\n4. Run the following command: ndsrepair -C -Ad -A  - this will report any remaining external references on the server not fixed by the above timestamp operation.
+\n5. Exit the PuTTY session when satisfied.
+
+\n\nIf you are unsure of running these commands by yourself,
+\nPlease contact your System Administrator to ensure you are doing the right thing before doing anything.
+
+\n\nThanks,
+
+\n\neDirectory Reports

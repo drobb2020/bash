@@ -1,0 +1,13 @@
+
+An eDirectory backup has been performed on the server listed in the subject line. 
+
+The backup directory is located at /root/ndsBackup.
+
+Please copy this folder and its contents to an alternate location prior to performing maintenance on the server. Use WinSCP to copy or move the folder off the server.
+
+These files will assist in the recovery of the server if it becomes unresponsive or fails to restart and must
+be rebuilt.
+
+Thank you,
+
+eDirectory Reports

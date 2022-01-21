@@ -1,0 +1,31 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:			vmware-check-tools
+# Required-Start:		
+# Should-Start:			
+# Required-Stop:		
+# Should-Stop:			
+# Default-Start:		3 5
+# Default-Stop:			0 1 2 6
+# Short-Description:		Auto-recompile vmware-tools after kernel upgrade
+# Description:			Automatically recompile vmware-tools after kernel upgrade
+### END INIT INFO
+
+# Following lines auto-recompile VM Tools when kernel updated
+VMToolsCheckFile="/lib/modules/`uname -r`/misc/.vmware_installed"
+VMToolsVersion=`vmware-config-tools.pl --help 2>&1 | awk '$0 ~ /^VMware Tools [0-9]/ { print $3,$4 }'`
+
+printf "\nCurrent VM Tools version: $VMToolsVersion\n\n"
+
+if [[ ! -e $VMToolsCheckFile || `grep -c "$VMToolsVersion" $VMToolsCheckFile` -eq 0 ]]; then
+[ -x /usr/bin/vmware-config-tools.pl ] && \
+printf "Automatically compiling new build of VMware Tools\n\n" && \
+/usr/bin/vmware-config-tools.pl --default && \
+printf "$VMToolsVersion" > $VMToolsCheckFile && \
+# rmmod pcnet32
+rmmod vmxnet
+depmod -a
+modprobe vmxnet
+fi
+

@@ -1,0 +1,44 @@
+SHELL=/bin/sh
+PATH=/usr/bin:/usr/sbin:/sbin:/bin:/usr/lib/news/bin:/opt/novell/eDirectory/bin
+MAILTO=root
+#
+# check scripts in cron.hourly, cron.daily, cron.weekly, and cron.monthly
+#
+-*/15 * * * *   root  test -x /usr/lib/cron/run-crons && /usr/lib/cron/run-crons >/dev/null 2>&1
+
+00 2 * * 1  root dsbk backup -f/var/log/backups/dsbk/mon.dib -l/var/log/backups/dsbk/mon.log -e novell -t -b -w
+00 2 * * 2  root dsbk backup -f/var/log/backups/dsbk/tue.dib -l/var/log/backups/dsbk/tue.log -e novell -t -b -w
+00 2 * * 3  root dsbk backup -f/var/log/backups/dsbk/wed.dib -l/var/log/backups/dsbk/wed.log -e novell -t -b -w
+00 2 * * 4  root dsbk backup -f/var/log/backups/dsbk/thu.dib -l/var/log/backups/dsbk/thu.log -e novell -t -b -w
+00 2 * * 5  root dsbk backup -f/var/log/backups/dsbk/fri.dib -l/var/log/backups/dsbk/fri.log -e novell -t -b -w
+00 2 * * 6  root dsbk backup -f/var/log/backups/dsbk/sat.dib -l/var/log/backups/dsbk/sat.log -e novell -t -b -w
+00 2 * * 0  root dsbk backup -f/var/log/backups/dsbk/sun.dib -l/var/log/backups/dsbk/sun.log -e novell -t -b -w
+30 2 * * 3  root ndsrepair -R -c yes
+59 0 * * 1  root rm /var/log/backups/trustee/mon.txt
+00 1 * * 1  root zTrustee /ET SAVE ALL /var/log/backups/trustee/mon.txt
+59 0 * * 2  root rm /var/log/backups/trustee/tue.txt
+00 1 * * 2  root zTrustee /ET SAVE ALL /var/log/backups/trustee/tue.txt
+59 0 * * 3  root rm /var/log/backups/trustee/wed.txt
+00 1 * * 3  root zTrustee /ET SAVE ALL /var/log/backups/trustee/wed.txt
+59 0 * * 4  root rm /var/log/backups/trustee/thu.txt
+00 1 * * 4  root zTrustee /ET SAVE ALL /var/log/backups/trustee/thu.txt
+59 0 * * 5  root rm /var/log/backups/trustee/fri.txt
+00 1 * * 5  root zTrustee /ET SAVE ALL /var/log/backups/trustee/fri.txt
+59 0 * * 6  root rm /var/log/backups/trustee/sat.txt
+00 1 * * 6  root zTrustee /ET SAVE ALL /var/log/backups/trustee/sat.txt
+59 0 * * 0  root rm /var/log/backups/trustee/sun.txt
+00 1 * * 0  root zTrustee /ET SAVE ALL /var/log/backups/trustee/sun.txt
+59 2 * * 1  root rm /var/log/backups/supportconfig/mon/*
+00 3 * * 1  root supportconfig -R /var/log/backups/supportconfig/mon
+59 2 * * 2  root rm /var/log/backups/supportconfig/tue/*
+00 3 * * 2  root supportconfig -R /var/log/backups/supportconfig/tue
+59 2 * * 3  root rm /var/log/supportconfig/wed/*
+00 3 * * 3  root supportconfig -R /var/log/backups/supportconfig/wed
+59 2 * * 4  root rm /var/log/backups/supportconfig/thu/*
+00 3 * * 4  root supportconfig -R /var/log/backups/supportconfig/thu
+59 2 * * 5  root rm /var/log/backups/supportconfig/fri/*
+00 3 * * 5  root supportconfig -R /var/log/backups/supportconfig/fri
+59 2 * * 6  root rm /var/log/backups/supportconfig/sat/*
+00 3 * * 6  root supportconfig -R /var/log/backups/supportconfig/sat
+59 2 * * 0  root rm /var/log/backups/supportconfig/sun/*
+00 3 * * 0  root supportconfig -R /var/log/backups/supportconfig/sun
